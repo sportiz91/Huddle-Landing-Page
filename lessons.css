@@ -1,0 +1,226 @@
+/* Lecciones aprendidas en el armado de esta página web */
+
+/* CSS Units
+Link: https://www.w3schools.com/cssref/css_units.asp
+
+Note: A whitespace cannot appear between the number and the unit. However, if the value is 0, the unit can be omitted.
+For some CSS properties, negative lengths are allowed.
+There are two types of length units: absolute and relative.
+
+Absolute Lengths
+The absolute length units are fixed and a length expressed in any of these will appear as exactly that size.
+Absolute length units are not recommended for use on screen, because screen sizes vary so much.
+However, they can be used if the output medium is known, such as for print layout.
+cm	centimeters
+mm	millimeters
+in	inches (1in = 96px = 2.54cm)
+px *	pixels (1px = 1/96th of 1in)
+pt	points (1pt = 1/72 of 1in)
+pc	picas (1pc = 12 pt)
+* Pixels (px) are relative to the viewing device. For low-dpi devices,
+1px is one device pixel (dot) of the display. For printers and high resolution screens 1px implies multiple device pixels.
+
+Relative Lengths
+Relative length units specify a length relative to another length property.
+Relative length units scale better between different rendering medium.
+em	Relative to the font-size of the element (2em means 2 times the size of the current font)
+ex	Relative to the x-height of the current font (rarely used)
+ch	Relative to the width of the "0" (zero)
+rem	Relative to font-size of the root element
+vw	Relative to 1% of the width of the viewport*
+vh	Relative to 1% of the height of the viewport*
+vmin	Relative to 1% of viewport's* smaller dimension
+vmax	Relative to 1% of viewport's* larger dimension
+%	Relative to the parent element
+Tip: The em and rem units are practical in creating perfectly scalable layout!
+* Viewport = the browser window size. If the viewport is 50cm wide, 1vw = 0.5cm.
+
+Px -> es una unidad fija. Ojo que en dispositivos cuyo dpi es > 1, 1px concentra más información que 1px.
+rem -> el rem unit setea el font-size relativo al font-size base de los buscadores de internet y no derivado de su parent
+element. El em si lo deriva de su parent element. Creo que por default en html viene definido 16px de tamaño.
+(ej -> bootstrap define 1rem de html en la configuración por default). Entonces, cuando vaya creando nuevos elementos
+y el ponga font size rem, el tamaño será escalable a la base.
+Ver ejemplo para entender: https://www.w3schools.com/cssref/tryit.asp?filename=trycss_unit_rem
+Ver ejemplo para entender em: https://www.w3schools.com/cssref/tryit.asp?filename=trycss_unit_em
+
+% -> es en % respecto de su parent element. Esto quiere decir que si el font-size del parent element es de 16px (por default)
+y pongo 100% de font size a un child element, también tendrá 16px de tamaño. Ahora, si pongo 50%, tendrá 8px de tamaño.
+
+1rem = 100% = 16px.
+
+vw -> el tamaño escala en función del width de la pantalla. 1vw = 1% del width del viewport.
+Es decir, el tamaño del width de la pantalla donde estoy cargando la página es de 1000px y seleccione 1vw para un h1,
+el tamaño del h1 será de 10px. Si le pongo 10vw, será de 100px y así.
+Ver ejemplo para entender: https://www.w3schools.com/cssref/tryit.asp?filename=trycss_unit_vw
+vh -> lo mismo pero escala en función del height de la pantalla. 1vh = 1% del height de la pantalla.
+Ver ejemplo para entender -> https://www.w3schools.com/cssref/tryit.asp?filename=trycss_unit_vh
+
+vmin -> toma el mínimo entre 1vw y 1vh (se vuelve escalable en height y width). Esto quiere decir que si sigo ampliando
+la pantalla en width, llegará a un tope que no se pueda ampliar más por width (dado que height empezará a ser menor). No
+obstante, si empiezo a reducir mucho en width la pantalla, cuando 1vw sea menor a 1vh comenzará a tomar el primero.
+Además, si hago zoom in (para gente que no ve un carajo y ve las páginas más grandes en tamaño) el elemento se irá achicando.
+
+Hacer zoom in es equivalente a hacer más chico el height y el width de la pantalla. Hacer zoom out es equivalente a hacer
+más grande el height y el width de la pantalla
+
+vmax -> lo mismo pero toma el máximo entre 1vw y 1vh. Esto quiere decir que si agrando el width, el elemento se va haciendo
+más grande (igual que vw), si hago zoom out se va haciendo más grande, si hago zoom in se hace más chico y si achico width se
+mantiene del mismo tamaño (dado que el height no cambia).
+Ver ejemplo para entender: https://www.w3schools.com/cssref/tryit.asp?filename=trycss_unit_vmax
+
+*/
+
+/* Font scaling based on width of container
+Link: https://stackoverflow.com/questions/16056591/font-scaling-based-on-width-of-container
+
+IMPORTANTE! vh y vw es tamaño en relación al width del viewport. Esto quiere decir que toma todo el body como element.
+Pero si quiero escalar en función de un determinado container no me sirve mucho.
+
+font-size: 100%; means 100% of the size the text would have been
+(i.e. the one it inherits from its parent). By default that is 16px. So if you used 50%, it would be font-size: 8px
+
+@Andy: Actually, "by default" is whatever the users have their browser text size set to,
+which may not necessarily resolve to 16px. – ScottS Nov 6 '13 at 16:01
+
+Gran respuesta:
+EDIT: If the container is not the body CSS Tricks covers all of your options in Fitting Text to a Container.
+If the container is the body, what you are looking for is Viewport-percentage lengths:
+The viewport-percentage lengths are relative to the size of the initial
+containing block. When the height or width of the initial containing block
+is changed, they are scaled accordingly. However, when the value of overflow on the root
+element is auto, any scroll bars are assumed not to exist.
+
+The values are:
+vw (% of the viewport width)
+vh (% of the viewport height)
+vi (1% of the viewport size in the direction of the root element's inline axis)
+vb (1% of the viewport size in the direction of the root element's block axis)
+vmin (the smaller of vw or vh)
+vmax (the larger or vw or vh)
+1 v* is equal to 1% of the initial containing block.
+As you can see, when the viewport width increases, so do the font-size, without needing to use media queries.
+These values are a sizing unit, just like px or em, so they can be used to size other elements
+as well, such as width, margin, or padding.
+
+*/
+
+/* Fitting Text to a Container
+Link: https://css-tricks.com/fitting-text-to-a-container/
+
+Magic Number it with viewport units
+If you set type with vw (viewport width)
+units, you can find an exact number where the text pretty closely
+fits the container and doesn’t break as you resize. I’d call this a magic number.
+
+Para poder ver el soporte de vw, vh, vmin y vmax entre diferentes browsers:
+https://caniuse.com/viewport-units
+
+Browsers más usados:
+1. Chrome89 for android -> 37.35%
+2. Chrome26-89 for desktop -> 27.35
+3. Safari on iOS 14-0-14.5 -> 11.85%
+4. Edge16-89 -> 3.62%
+5. Safari14 -> 3.05%
+6. Firefox19-86 -> 3.03%
+7. Samsung Internet 13.0 -> 2.66%
+8. Safari on iOS -> 2.16%
+
+Solo el 2% de los browsers, aproximadamente, no soporta o tiene soporte parcial de vw, vh, vmax y vmin (y usualmente
+son vmax y vmin las que generan problemas).
+
+Known Issues:
+In Firefox there is a documented bug where 100vh has no effect on any element with its display property set to table.
+Chrome does not support viewport units for border widths, column gaps, transform values, box shadows or in calc()
+until version 34.
+Safari & iOS Safari (both 6 and 7) does not support viewport units for border widths, column gaps,
+transform values, box shadows or in calc().
+iOS 7 Safari sets viewport unit values to 0 if the page has been left and is returned to after 60 seconds.
+Internet Explorer 9 in print-mode interprets vh as pages. 30vh = 30 pages
+iOS 7 Safari recalculates widths set in vh as vw, and heights set in vw as vh, when orientation changes.
+In IE 10 and 11, using vw units with 3D transforms causes unexpected behavior
+Currently all browsers but Firefox incorrectly consider 100vw to be the entire page width,
+including vertical scroll bar, which can cause a horizontal scroll bar when overflow: auto is set.
+IE9 does not calculate viewport units correctly when the browser or OS is zoomed.
+In IE9 inside an iframe, viewport units will be calculated in the context of the parent window and not the iframe.
+On iOS Safari and Chrome for Android, 100vw 100vh are sized to the 'largest possible viewport' where they
+may be larger than <html> 100% being the 'smallest possible viewport', all during the user's scrolling. On Safari
+for iPad with the sidebar on, the 'largest possible viewport' may be when the content is scrolled until it fills
+all the area beneath the blurred sidebar.
+IE and Edge truncate all units to 2 decimals places. Lengths coming from
+fractions may not be rendered with the expected value.
+
+*/
+
+/* Viewport Sized Typography
+Link: https://css-tricks.com/viewport-sized-typography/
+
+There are values in CSS that are for sizing things in relation to the viewport (the size of the browser window).
+They are called viewport units, and there are a number of them that do slightly different (all useful) things.
+One unit is 1% of one of the axes of the viewport.
+These can be useful for responsive design, that is, designing websites that look good across different screen sizes,
+taking advantage of the space available to them.
+There are many things you can do with viewport units, but let’s look at one in particular: typography.
+
+Why is this awesome?
+There are many reasons. Here are two:
+There is a such thing as a comfortable line length for reading text on screens. I don’t want to kick a hornet’s nest,
+but let’s say its around 80 characters. These units allow you to get it feeling perfect and then
+have that experience scale to any size screen.
+They allow you to tightly couple the size relationship of, say, a typographic header and
+the content it goes with. Like your classic Trent Walton style blog post.
+
+How they work
+One unit on any of the three values is 1% of the viewport axis. “Viewport” == browser window size
+== window object. If the viewport is 40cm wide, 1vw == 0.4cm.
+1vw = 1% of viewport width
+1vh = 1% of viewport height
+1vmin = 1vw or 1vh, whichever is smaller
+1vmax = 1vw or 1vh, whichever is larger
+
+*/
+
+/* background-size property
+Link: https://www.w3schools.com/cssref/css3_pr_background-size.asp
+
+The background-size property specifies the size of the background images.
+There are four different syntaxes you can use with this property: the keyword syntax ("auto", "cover" and "contain")
+the one-value syntax (sets the width of the image (height becomes "auto"),
+the two-value syntax (first value: width of the image, second value: height)
+and the multiple background syntax (separated with comma).
+
+auto	Default value. The background image is displayed in its original size
+
+length	Sets the width and height of the background image. The first value sets the width,
+the second value sets the height. If only one value is given, the second is set to "auto". Read about length units
+
+percentage	Sets the width and height of the background image in percent of the parent element. The first value
+sets the width, the second value sets the height. If only one value is given, the second is set to "auto"
+
+cover	Resize the background image to cover the entire container, even if it has to stretch the image
+or cut a little bit off one of the edges
+
+contain	Resize the background image to make sure the image is fully visible
+
+*/
+
+/* Modelos diferentes de página:
+
+Según entiendo, existen dos modelos diferentes de página
+
+1. Sizes fijos + Breakpoints
+2. Sizes fully responsive
+
+1. Para sizes fijos + breakpoints, a medida que vaya drageando el width a la derecha veré que todos los tamaños (márgenes,
+font sizes, etc) quedan iguales, pero que la letra se va desplazando a la derecha digamos. Entonces, cada tanto, le voy a tener
+que meter un breakpoint para arreglar.
+En estos modelos, la idea es poner todo con rem: font sizes, márgenes, padding, etc. El usuario, según el width de su pantalla,
+verá un estilo de página web u otra.
+
+2. Sizes fully
+Si lo que queremos encambio, es que el usuario vea siempre exactamente la misma página escalada a su device width, tendremos que usar
+medidas del tipo vw y vh. Además, los márgenes deberían estar en %. Lo malo de esto es que a medida voy drageando el width a la izquierda,
+se puede producir un overflow x y la página se me puede volver muy larga digamos.
+
+Siempre, antes de empezar a hacer la página, se debe elegir entre estos dos modelos de armado para ver que nos gusta más.
+Otra cosa que puedo hacer es comenzar en un modelo (ej -> sizes fully para tamaños más chicos) y luego pasarme a un modelo de sizes
+fijos.
